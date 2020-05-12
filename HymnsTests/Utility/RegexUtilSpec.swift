@@ -7,7 +7,6 @@ class RegexUtilSpec: QuickSpec {
 
     override func spec() {
         describe("geting HymnType") {
-
             let classic = "/en/hymn/h/594"
             context("from \(classic)") {
                 it("should be classic") {
@@ -85,7 +84,6 @@ class RegexUtilSpec: QuickSpec {
                 }
             }
         }
-
         describe("geting HymnNumber") {
             let classic = "/en/hymn/h/594"
             context("from \(classic)") {
@@ -175,6 +173,40 @@ class RegexUtilSpec: QuickSpec {
             context("from \(queryParams)") {
                 it("should be '594'") {
                     expect(RegexUtil.getHymnNumber(path: queryParams)).to(equal("594"))
+                }
+            }
+        }
+        describe("geting Query Params") {
+            let emptyString = ""
+            context("from \(emptyString)") {
+                it("should be nil") {
+                    expect(RegexUtil.getQueryParams(path: emptyString)).to(beNil())
+                }
+            }
+            let noQueryParams = "/en/hymn/h/594"
+            context("from \(noQueryParams)") {
+                it("should be nil") {
+                    expect(RegexUtil.getQueryParams(path: noQueryParams)).to(beNil())
+                }
+            }
+            let oneQueryParam = "/en/hymn/h/594?gb=1"
+            context("from \(oneQueryParam)") {
+                it("should be nil") {
+                    let queryParams = RegexUtil.getQueryParams(path: oneQueryParam)
+                    expect(queryParams).toNot(beNil())
+                    expect(queryParams!.count).to(equal(1))
+                    expect(queryParams!["gb"]).to(equal("1"))
+                }
+            }
+            let manyQueryParams = "/en/hymn/h/594?a=b&c=1&gb=89378"
+            context("from \(manyQueryParams)") {
+                it("should be have values") {
+                    let queryParams = RegexUtil.getQueryParams(path: manyQueryParams)
+                    expect(queryParams).toNot(beNil())
+                    expect(queryParams!.count).to(equal(3))
+                    expect(queryParams!["a"]).to(equal("b"))
+                    expect(queryParams!["c"]).to(equal("1"))
+                    expect(queryParams!["gb"]).to(equal("89378"))
                 }
             }
         }
