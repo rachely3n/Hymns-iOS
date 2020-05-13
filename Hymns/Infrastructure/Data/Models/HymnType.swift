@@ -109,3 +109,5 @@ extension HymnType {
 extension HymnType: CustomStringConvertible {
     var description: String { abbreviatedValue }
 }
+
+extension HymnType: Decodable {}

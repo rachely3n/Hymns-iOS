@@ -41,9 +41,7 @@ class HymnsRepositoryImpl: HymnsRepository {
             return Just(hymn).eraseToAnyPublisher()
         }
 
-        return HymnNetworkBoundResource(
-            converter: converter, dataStore: dataStore, decoder: decoder, disposables: disposables,
-            hymnIdentifier: hymnIdentifier, service: service, systemUtil: systemUtil)
+        return HymnNetworkBoundResource(hymnIdentifier: hymnIdentifier)
             .execute(disposables: &disposables)
             // Don't pass through any values while hymn is still loading.
             .drop(while: { resource -> Bool in
@@ -72,16 +70,15 @@ class HymnsRepositoryImpl: HymnsRepository {
         private let service: HymnalApiService
         private let systemUtil: SystemUtil
 
-        let disposables: Set<AnyCancellable>
 
-        fileprivate init(analytics: AnalyticsLogger = Resolver.resolve(), converter: Converter, dataStore: HymnDataStore,
-                         decoder: JSONDecoder, disposables: Set<AnyCancellable>, hymnIdentifier: HymnIdentifier,
-                         service: HymnalApiService, systemUtil: SystemUtil) {
+        fileprivate init(analytics: AnalyticsLogger = Resolver.resolve(), converter: Converter = Resolver.resolve(),
+                         dataStore: HymnDataStore = Resolver.resolve(), decoder: JSONDecoder = Resolver.resolve(),
+                         hymnIdentifier: HymnIdentifier, service: HymnalApiService = Resolver.resolve(),
+                         systemUtil: SystemUtil = Resolver.resolve()) {
             self.analytics = analytics
             self.converter = converter
             self.dataStore = dataStore
             self.decoder = decoder
-            self.disposables = disposables
             self.hymnIdentifier = hymnIdentifier
             self.service = service
             self.systemUtil = systemUtil
@@ -97,7 +94,7 @@ class HymnsRepositoryImpl: HymnsRepository {
             dataStore.saveHymn(hymnEntity)
         }
 
-        func shouldFetch(uiResult: UiHymn??) -> Bool {
+        func shouldFetch(convertedDatabaseResult uiResult: UiHymn??) -> Bool {
             let flattened = uiResult?.flatMap({ uiHymn -> UiHymn? in
                 return uiHymn
             })
@@ -137,7 +134,7 @@ class HymnsRepositoryImpl: HymnsRepository {
         }
 
         func createNetworkCall() -> AnyPublisher<Hymn, ErrorType> {
-            return service.getHymn(hymnIdentifier)
+            service.getHymn(hymnIdentifier)
         }
     }
 }

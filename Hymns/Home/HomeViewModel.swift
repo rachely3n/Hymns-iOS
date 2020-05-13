@@ -146,20 +146,18 @@ class HomeViewModel: ObservableObject {
         isLoading = true
         repository
             .search(searchParameter: searchParameter.trim(), pageNumber: page)
-            .map({ (songResultsPage) -> ([SongResultViewModel], Bool) in
-                guard let songResultsPage = songResultsPage else {
-                    return ([SongResultViewModel](), false)
+            .map({ (resource) -> ([SongResultViewModel], Bool) in
+                let data = resource.data
+
+                var newSongResults = [SongResultViewModel]()
+                if let data = data {
+                    newSongResults.append(contentsOf: data.results.map({ uiSongResult -> SongResultViewModel in
+                        let destinationHymn = uiSongResult.identifier
+                        return SongResultViewModel(title: uiSongResult.name, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: destinationHymn)).eraseToAnyView())
+                    }))
                 }
-                let hasMorePages = songResultsPage.hasMorePages ?? false
-                let songResults = songResultsPage.results.compactMap { (songResult) -> SongResultViewModel? in
-                    guard let hymnType = RegexUtil.getHymnType(path: songResult.path), let hymnNumber = RegexUtil.getHymnNumber(path: songResult.path) else {
-                        self.analytics.logError(message: "error happened when trying to parse song result", extraParameters: ["path": songResult.path, "name": songResult.name])
-                        return nil
-                    }
-                    let identifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber)
-                    return SongResultViewModel(title: songResult.name, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
-                }
-                return (songResults, hasMorePages)
+                let loadMorePages = data?.hasMorePages ?? false
+                return (newSongResults, loadMorePages)
             })
             .subscribe(on: backgroundQueue)
             .receive(on: mainQueue)
@@ -168,7 +166,7 @@ class HomeViewModel: ObservableObject {
                     guard let self = self else { return }
                     switch state {
                     case .failure:
-                        // Call failed, so we should stop loading any more pages
+                        // Request failed, so we should stop loading any more pages
                         self.isLoading = false
                         self.hasMorePages = false
 

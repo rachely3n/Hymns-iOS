@@ -7,17 +7,17 @@ class SongRepositoryImplTest: XCTestCase {
 
     static let resultsPage: SongResultsPage = SongResultsPage(results: [SongResult](), hasMorePages: false)
 
-    var hymnalApiService: HymnalApiServiceMock!
+    var service: HymnalApiServiceMock!
     var target: SongResultsRepositoryImpl!
 
     override func setUp() {
         super.setUp()
-        hymnalApiService = mock(HymnalApiService.self)
-        target = SongResultsRepositoryImpl(hymnalApiService: hymnalApiService)
+        service = mock(HymnalApiService.self)
+        target = SongResultsRepositoryImpl(service: service)
     }
 
     func test_search_networkError() {
-        given(hymnalApiService.search(for: "Dan Sady", onPage: 2)) ~> { (_, _) in
+        given(service.search(for: "Dan Sady", onPage: 2)) ~> { (_, _) in
             Just<SongResultsPage>(Self.resultsPage)
                 .tryMap({ (_) -> SongResultsPage in
                     throw URLError(.badServerResponse)
@@ -34,13 +34,13 @@ class SongRepositoryImplTest: XCTestCase {
                 XCTAssertNil(resultsPage)
             })
 
-        verify(hymnalApiService.search(for: "Dan Sady", onPage: 2)).wasCalled(exactly(1))
+        verify(service.search(for: "Dan Sady", onPage: 2)).wasCalled(exactly(1))
         wait(for: [valueReceived], timeout: testTimeout)
         cancellable.cancel()
     }
 
     func test_search_fromNtwork_resultsSuccessful() {
-        given(hymnalApiService.search(for: "Dan Sady", onPage: 2)) ~> { (_, _) in
+        given(service.search(for: "Dan Sady", onPage: 2)) ~> { (_, _) in
             Just<SongResultsPage>(Self.resultsPage)
                 .mapError({ (_) -> ErrorType in
                     .data(description: "This will never get called")
@@ -54,7 +54,7 @@ class SongRepositoryImplTest: XCTestCase {
                 XCTAssertEqual(Self.resultsPage, resultsPage!)
             })
 
-        verify(hymnalApiService.search(for: "Dan Sady", onPage: 2)).wasCalled(exactly(1))
+        verify(service.search(for: "Dan Sady", onPage: 2)).wasCalled(exactly(1))
         wait(for: [valueReceived], timeout: testTimeout)
         cancellable.cancel()
     }
