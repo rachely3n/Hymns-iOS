@@ -146,41 +146,28 @@ class HomeViewModel: ObservableObject {
         isLoading = true
         repository
             .search(searchParameter: searchParameter.trim(), pageNumber: page)
-            .map({ (songResultsPage) -> ([SongResultViewModel], Bool) in
-                guard let songResultsPage = songResultsPage else {
-                    return ([SongResultViewModel](), false)
-                }
+            .map({ songResultsPage -> ([SongResultViewModel], Bool) in
                 let hasMorePages = songResultsPage.hasMorePages ?? false
-                let songResults = songResultsPage.results.compactMap { (songResult) -> SongResultViewModel? in
-                    guard let hymnType = RegexUtil.getHymnType(path: songResult.path), let hymnNumber = RegexUtil.getHymnNumber(path: songResult.path) else {
-                        self.analytics.logError(message: "error happened when trying to parse song result", extraParameters: ["path": songResult.path, "name": songResult.name])
-                        return nil
-                    }
-                    let identifier = HymnIdentifier(hymnType: hymnType, hymnNumber: hymnNumber)
-                    return SongResultViewModel(title: songResult.name, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: identifier)).eraseToAnyView())
+                let songResults = songResultsPage.results.compactMap { songResult -> SongResultViewModel? in
+                    return SongResultViewModel(title: songResult.name, destinationView: DisplayHymnView(viewModel: DisplayHymnViewModel(hymnToDisplay: songResult.identifier)).eraseToAnyView())
                 }
                 return (songResults, hasMorePages)
             })
             .subscribe(on: backgroundQueue)
             .receive(on: mainQueue)
             .sink(
-                receiveCompletion: { [weak self] state in
+                receiveCompletion: { [weak self] _ in
                     guard let self = self else { return }
-                    switch state {
-                    case .failure:
-                        // Call failed, so we should stop loading any more pages
-                        self.isLoading = false
-                        self.hasMorePages = false
+                    // Call is completed, so we should stop loading any more pages
+                    self.isLoading = false
+                    self.hasMorePages = false
 
-                        // If there are no results and there's an error, then we should show the no
-                        // results state. Otherwise, just keep the results that we have.
-                        if self.songResults.isEmpty {
-                            self.state = .empty
-                        } else {
-                            self.state = .results
-                        }
-                    case .finished:
-                        break
+                    // If there are no results and there's aren't any more results coming,
+                    // then we should show the no results state. Otherwise, just keep the results that we have.
+                    if self.songResults.isEmpty {
+                        self.state = .empty
+                    } else {
+                        self.state = .results
                     }
                 },
                 receiveValue: { [weak self] (songResults, hasMorePages) in

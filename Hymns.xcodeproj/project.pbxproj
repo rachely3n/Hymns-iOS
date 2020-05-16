@@ -31,6 +31,10 @@
 		3B25C0E824503B6900C435E1 /* RecentSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B25C0E724503B6900C435E1 /* RecentSong.swift */; };
 		3B25C0EA24503B7E00C435E1 /* HistoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B25C0E924503B7E00C435E1 /* HistoryStore.swift */; };
 		3B25C0EF2450BF9200C435E1 /* HistoryStoreRealmImplSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B25C0EE2450BF9200C435E1 /* HistoryStoreRealmImplSpec.swift */; };
+		3B2E84B3246FA87D00EA4329 /* SearchResultEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2E84B2246FA87D00EA4329 /* SearchResultEntity.swift */; };
+		3B2E84B5246FA88800EA4329 /* SongResultEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2E84B4246FA88800EA4329 /* SongResultEntity.swift */; };
+		3B2E84B7246FA8A200EA4329 /* UiSongResultsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2E84B6246FA8A200EA4329 /* UiSongResultsPage.swift */; };
+		3B2E84B924709CAB00EA4329 /* SongResultsRepositoryImpl_dbUninitializedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2E84B824709CAA00EA4329 /* SongResultsRepositoryImpl_dbUninitializedTests.swift */; };
 		3B3A2A10244D7C65001BF689 /* Application+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3A2A0F244D7C65001BF689 /* Application+Extensions.swift */; };
 		3B45B8FF243BE87300D38BEF /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B45B8FE243BE87300D38BEF /* HomeViewModel.swift */; };
 		3B45B902243BEC1C00D38BEF /* SongResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B45B901243BEC1C00D38BEF /* SongResultViewModel.swift */; };
@@ -165,6 +169,10 @@
 		3B25C0E724503B6900C435E1 /* RecentSong.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSong.swift; sourceTree = "<group>"; };
 		3B25C0E924503B7E00C435E1 /* HistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryStore.swift; sourceTree = "<group>"; };
 		3B25C0EE2450BF9200C435E1 /* HistoryStoreRealmImplSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryStoreRealmImplSpec.swift; sourceTree = "<group>"; };
+		3B2E84B2246FA87D00EA4329 /* SearchResultEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultEntity.swift; sourceTree = "<group>"; };
+		3B2E84B4246FA88800EA4329 /* SongResultEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongResultEntity.swift; sourceTree = "<group>"; };
+		3B2E84B6246FA8A200EA4329 /* UiSongResultsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UiSongResultsPage.swift; sourceTree = "<group>"; };
+		3B2E84B824709CAA00EA4329 /* SongResultsRepositoryImpl_dbUninitializedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongResultsRepositoryImpl_dbUninitializedTests.swift; sourceTree = "<group>"; };
 		3B3A2A0F244D7C65001BF689 /* Application+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Application+Extensions.swift"; sourceTree = "<group>"; };
 		3B45B8FE243BE87300D38BEF /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		3B45B901243BEC1C00D38BEF /* SongResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongResultViewModel.swift; sourceTree = "<group>"; };
@@ -556,6 +564,9 @@
 				3B5935B024358D1B00E6993C /* Hymn.swift */,
 				3B877E872460E1AF004C10DD /* UiHymn.swift */,
 				3B90969A245F7F14000229A2 /* HymnEntity.swift */,
+				3B2E84B2246FA87D00EA4329 /* SearchResultEntity.swift */,
+				3B2E84B4246FA88800EA4329 /* SongResultEntity.swift */,
+				3B2E84B6246FA8A200EA4329 /* UiSongResultsPage.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -584,6 +595,7 @@
 				3B5FD7232436B20A00B65132 /* HymnsRepositoryImpl_dbInitialized_dbHitTests.swift */,
 				3BF3BDC52467C39A0046228C /* HymnsRepositoryImpl_dbInitialized_dbMissTests.swift */,
 				3BF3BDC32467B9F40046228C /* HymnsRepositoryImpl_dbUninitializedTests.swift */,
+				3B2E84B824709CAA00EA4329 /* SongResultsRepositoryImpl_dbUninitializedTests.swift */,
 				3BC53640243EB13E00DA728F /* SongRepositoryImplTest.swift */,
 			);
 			path = Repository;
@@ -1070,6 +1082,7 @@
 				3B5935A0243566A400E6993C /* VerseType.swift in Sources */,
 				3B1B90182429CF55009FDCC5 /* Hymns.xcdatamodeld in Sources */,
 				3B25C0E52450399D00C435E1 /* Dictionary+Extensions.swift in Sources */,
+				3B2E84B5246FA88800EA4329 /* SongResultEntity.swift in Sources */,
 				3B25C0EA24503B7E00C435E1 /* HistoryStore.swift in Sources */,
 				3B5935A424357CA000E6993C /* HymnType.swift in Sources */,
 				5CA7849C242D14BA00B57903 /* SettingsView.swift in Sources */,
@@ -1087,6 +1100,7 @@
 				3BE9EE98244AB8650098699E /* PrivacyPolicySettingView.swift in Sources */,
 				B56305B7244223A5003BC132 /* CustomTitleView.swift in Sources */,
 				3B59359B243544EF00E6993C /* HymnalApiService.swift in Sources */,
+				3B2E84B3246FA87D00EA4329 /* SearchResultEntity.swift in Sources */,
 				3BE9EE9A244AC22C0098699E /* PrivacyPolicySettingViewModel.swift in Sources */,
 				5CA784A0242D1A3200B57903 /* BrowseView.swift in Sources */,
 				3B11E2A42464AA3400F27E73 /* HymnalNetService.swift in Sources */,
@@ -1104,6 +1118,7 @@
 				3BC1328D243826280082A274 /* PreviewHymns.swift in Sources */,
 				3B25C0E32450398F00C435E1 /* String+Extensions.swift in Sources */,
 				3BB1DCAF244D03DE0011169D /* TabBar.swift in Sources */,
+				3B2E84B7246FA8A200EA4329 /* UiSongResultsPage.swift in Sources */,
 				3B3A2A10244D7C65001BF689 /* Application+Extensions.swift in Sources */,
 				3B5935B124358D1B00E6993C /* Hymn.swift in Sources */,
 				B5A00F5F245277E300F7E3E1 /* ActivityIndicator.swift in Sources */,
@@ -1153,6 +1168,7 @@
 				3BC53646243EDB8100DA728F /* TestConstants.swift in Sources */,
 				3B11E29E24623D7900F27E73 /* ConverterSpec.swift in Sources */,
 				EF9D228545974074AF495E83 /* HymnsMocks.generated.swift in Sources */,
+				3B2E84B924709CAB00EA4329 /* SongResultsRepositoryImpl_dbUninitializedTests.swift in Sources */,
 				3B7D0C7F24668F6E00C23735 /* HomeViewModelSearchSpec.swift in Sources */,
 				3B09F901243D3BDC00252C15 /* HymnalApiService_SearchTest.swift in Sources */,
 				3B09F909243D806500252C15 /* TestHymns.swift in Sources */,
